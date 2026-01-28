@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registo | Protege+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-login-left { background-color: #C2E0B1; }
+        .bg-login-right { background-color: #76A361; }
+        .step-dot { width: 18px; height: 18px; border-radius: 50%; border: 3px solid #3d5a2d; background: transparent; transition: all 0.3s; }
+        .step-dot.active { background: #3d5a2d; }
+        .step-line { height: 4px; background: #3d5a2d; flex-grow: 1; opacity: 0.3; transition: all 0.3s; }
+        .step-line.active { opacity: 1; }
+    </style>
+</head>
+<body class="min-h-screen flex">
+
+    <div class="hidden lg:flex lg:w-5/12 bg-login-left flex-col justify-between p-12">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-black/20 rounded-lg flex items-center justify-center text-2xl">🛡️</div>
+            <a href="{% url 'home' %}">
+                <span class="text-3xl font-black italic text-[#20c214] hover:opacity-80 transition">Protege+</span>
+            </a>
+        </div>
+        <div class="flex justify-center">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="w-80 h-80">
+        </div>
+        <div></div>
+    </div>
+
+    <div class="w-full lg:w-7/12 bg-login-right flex items-center justify-center p-8 relative text-white">
+        <a href="{% url 'login' %}" class="absolute top-10 left-10 text-black text-3xl hover:scale-110 transition">←</a>
+
+        <div class="w-full max-w-md">
+            <h2 class="text-3xl font-black italic text-[#254d1a] text-center mb-6 uppercase">Regista-te e experimenta!</h2>
+
+            <div class="flex items-center justify-between mb-12 px-4">
+                <div id="dot1" class="step-dot active"></div>
+                <div id="line1" class="step-line mx-2"></div>
+                <div id="dot2" class="step-dot"></div>
+                <div id="line2" class="step-line mx-2"></div>
+                <div id="dot3" class="step-dot"></div>
+            </div>
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-4 rounded-xl bg-red-500/20 border border-red-500 text-white text-sm font-bold italic">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <form method="POST" id="registoForm" class="space-y-6">
+                {% csrf_token %}
+
+                <div id="step1" class="space-y-6">
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Email:</label>
+                        <input type="email" name="email" required placeholder="Endereço de email" 
+                            class="w-full bg-white/20 border-2 border-white/50 rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Nome da instituição:</label>
+                        <input type="text" name="instituicao" required placeholder="Nome da tua escola" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <button type="button" onclick="goToStep(2)" class="w-full bg-white/30 text-[#1a3a11] py-4 rounded-3xl font-black italic text-xl hover:bg-white/40 transition shadow-lg uppercase">
+                        Seguinte
+                    </button>
+                </div>
+
+                <div id="step2" class="hidden space-y-6">
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Idade:</label>
+                        <input type="number" name="idade" required placeholder="Tua idade" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Ano letivo:</label>
+                        <input type="text" name="ano_letivo" required placeholder="Ex: 10º Ano" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="button" onclick="goToStep(1)" class="w-1/3 bg-black/10 text-white py-4 rounded-3xl font-bold italic hover:bg-black/20 transition">Voltar</button>
+                        <button type="button" onclick="goToStep(3)" class="w-2/3 bg-white/30 text-[#1a3a11] py-4 rounded-3xl font-black italic text-xl hover:bg-white/40 transition shadow-lg uppercase">Seguinte</button>
+                    </div>
+                </div>
+
+                <div id="step3" class="hidden space-y-6">
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Nome de utilizador:</label>
+                        <input type="text" name="username" required placeholder="Como te queres chamar?" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Palavra-passe:</label>
+                        <input type="password" name="password" required placeholder="Cria uma senha" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div>
+                        <label class="block font-bold italic text-lg mb-2">Repetir palavra-passe:</label>
+                        <input type="password" name="confirm_password" required placeholder="Repete a senha" 
+                            class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="button" onclick="goToStep(2)" class="w-1/3 bg-black/10 text-white py-4 rounded-3xl font-bold italic hover:bg-black/20 transition">Voltar</button>
+                        <button type="submit" class="w-2/3 bg-white/30 text-[#1a3a11] py-4 rounded-3xl font-black italic text-xl hover:bg-white/40 transition shadow-lg uppercase">Finalizar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function goToStep(step) {
+            // Esconder todos
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+
+            // Mostrar o atual
+            document.getElementById('step' + step).classList.remove('hidden');
+
+            // Atualizar barra de progresso
+            document.getElementById('dot2').classList.toggle('active', step >= 2);
+            document.getElementById('line1').classList.toggle('active', step >= 2);
+            document.getElementById('dot3').classList.toggle('active', step >= 3);
+            document.getElementById('line2').classList.toggle('active', step >= 3);
+        }
+    </script>
+</body>
+</html>

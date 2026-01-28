@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Protege+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-login-left { background-color: #C2E0B1; } /* Verde claro da imagem */
+        .bg-login-right { background-color: #76A361; } /* Verde escuro da imagem */
+    </style>
+</head>
+<body class="min-h-screen flex">
+
+    <div class="hidden lg:flex lg:w-5/12 bg-login-left flex-col justify-between p-12 relative">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-black/20 rounded-lg flex items-center justify-center text-2xl">🛡️</div>
+            <a href="{% url 'home' %}">
+                <span class="text-2xl font-black italic text-[#20c214] hover:opacity-80 transition">Protege+</span>
+            </a>
+        </div>
+        
+        <div class="flex justify-center">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar" class="w-64 h-64 lg:w-80 lg:h-80">
+        </div>
+        <div></div> </div>
+
+    <div class="w-full lg:w-7/12 bg-login-right flex items-center justify-center p-8 relative">
+        
+        <a href="{% url 'home' %}" class="absolute top-10 left-10 text-black text-3xl hover:scale-110 transition">
+            ←
+        </a>
+
+        <div class="w-full max-w-md">
+            <h2 class="text-4xl font-black italic text-[#254d1a] text-center mb-12">
+                Bem-vindo de volta!
+            </h2>
+
+            <form method="POST" class="space-y-8">
+                {% csrf_token %}
+                
+                <div>
+                    <label class="block text-white font-bold italic text-lg mb-2">Email:</label>
+                    <input type="text" name="username" placeholder="Endereço de email" 
+                        class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                </div>
+
+                <div>
+                    <label class="block text-white font-bold italic text-lg mb-2">Palavra-passe:</label>
+                    <input type="password" name="password" placeholder="Palavra-passe" 
+                        class="w-full bg-white/20 border-none rounded-3xl py-4 px-6 text-white placeholder-white/60 focus:ring-2 focus:ring-white outline-none transition text-lg">
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-white/30 text-[#1a3a11] py-4 rounded-3xl font-black italic text-xl hover:bg-white/40 transition shadow-lg">
+                        Entrar
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-10 text-center space-y-4">
+                <a href="#" class="block text-white font-bold italic underline decoration-white/50 hover:text-gray-200">
+                    Esqueceu - se da palavra-passe?
+                </a>
+                <a href="{% url 'registar' %}" class="block text-white font-bold italic underline decoration-white/50 hover:text-gray-200">
+                    Não tem conta? Registe-se
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
