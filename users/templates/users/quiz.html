@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz | Protege+</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
+</head>
+<body class="bg-custom-light min-h-screen flex flex-col items-center px-4 pb-12">
+
+    <header class="fixed top-0 left-0 w-full z-[60] p-8 flex justify-between items-center pointer-events-none">
+        <div class="pointer-events-auto">
+            <a href="{% url 'home2' %}" 
+               class="flex items-center gap-2 bg-white/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/50 shadow-lg text-[#254d1a] font-black italic hover:bg-[#254d1a] hover:text-white transition-all group">
+                <span class="group-hover:-translate-x-1 transition-transform">←</span> 
+                Sair do Quiz
+            </a>
+        </div>
+
+        <div class="pointer-events-auto">
+            <a href="#" class="flex-shrink-0 w-16 h-16 bg-white/30 backdrop-blur-md rounded-full border border-white/50 shadow-lg flex items-center justify-center hover:scale-110 transition-all">
+                <div class="w-12 h-12 bg-[#254d1a] rounded-full flex items-center justify-center text-white font-black italic text-xl shadow-inner border-2 border-[#20c214]/30">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <div class="pt-40"></div>
+
+    <div class="relative w-full max-w-md mb-12 flex justify-between items-center px-2">
+        <div class="progress-line"></div>
+        {% for i in "1234567" %}
+            <div class="relative z-10 w-8 h-8 rounded-full border-4 shadow-sm transition-all duration-500
+                {% if forloop.counter < numero %} bg-[#254d1a] border-[#254d1a] {% elif forloop.counter == numero %} bg-[#20c214] border-white scale-125 shadow-[#20c214]/50 {% else %} bg-white border-gray-300 {% endif %}">
+                {% if forloop.counter == numero %}
+                    <div class="absolute inset-0 rounded-full animate-ping bg-[#20c214] opacity-20"></div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <main class="w-full max-w-4xl">
+        <div class="quiz-card p-10 rounded-[50px] shadow-2xl relative overflow-hidden text-center">
+            
+            <div class="bg-white/40 rounded-3xl p-8 mb-10 border border-white/50 relative">
+                <h2 class="text-3xl font-black italic text-[#254d1a] leading-tight mt-2">
+                    {{ pergunta.p }}
+                </h2>
+            </div>
+
+            <form method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% csrf_token %}
+                {% for opcao in pergunta.o %}
+                <button type="submit" name="resposta" value="{{ opcao }}"
+                    class="group relative bg-white/40 hover:bg-[#254d1a] p-6 rounded-[35px] border border-white/60 transition-all duration-300 flex items-center gap-4 shadow-sm hover:shadow-2xl hover:-translate-y-1 text-left">
+                    
+                    <div class="flex-shrink-0 w-12 h-12 bg-white group-hover:bg-[#20c214] text-[#254d1a] group-hover:text-white rounded-2xl flex items-center justify-center font-black text-xl transition-all shadow-md rotate-3 group-hover:rotate-0">
+                        {% if forloop.counter == 1 %}A{% elif forloop.counter == 2 %}B{% elif forloop.counter == 3 %}C{% else %}D{% endif %}
+                    </div>
+                    
+                    <span class="text-[#1a3a11] group-hover:text-white font-bold text-lg italic transition-colors leading-tight">
+                        {{ opcao }}
+                    </span>
+                </button>
+                {% endfor %}
+            </form>
+
+            <div class="mt-12 flex justify-end">
+                 <div class="text-[#254d1a] font-black italic bg-white/30 px-6 py-2 rounded-full border border-white/40">
+                    QUESTÃO {{ numero }} DE 7
+                 </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-8 right-8 z-50 flex flex-col items-end pointer-events-none">
+        <div id="daltonismo-menu" class="hidden mb-4 bg-white/90 backdrop-blur-xl p-6 rounded-[30px] shadow-2xl border border-white/50 w-64 pointer-events-auto">
+            <h3 class="text-[#254d1a] font-black italic uppercase text-sm mb-4 border-b border-[#254d1a]/10 pb-2">Acessibilidade</h3>
+            <ul class="space-y-2">
+                <li><button onclick="setDaltonismo('normal')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Padrão</button></li>
+                <li><button onclick="setDaltonismo('protanopia')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Protanopia</button></li>
+                <li><button onclick="setDaltonismo('deuteranopia')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Deuteranopia</button></li>
+                <li><button onclick="setDaltonismo('tritanopia')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Tritanopia</button></li>
+                <li><button onclick="setDaltonismo('achromatopsia')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">P&B</button></li>
+            </ul>
+        </div>
+
+        <div id="contraste-menu" class="hidden mb-4 bg-white/90 backdrop-blur-xl p-6 rounded-[30px] shadow-2xl border border-white/50 w-64 pointer-events-auto">
+            <h3 class="text-[#254d1a] font-black italic uppercase text-sm mb-4 border-b border-[#254d1a]/10 pb-2">Contraste</h3>
+            <ul class="space-y-2">
+                <li><button onclick="setContraste('normal')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Padrão</button></li>
+                <li><button onclick="setContraste('alto-contraste')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Alto Contraste</button></li>
+                <li><button onclick="setContraste('contraste-invertido')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Invertido</button></li>
+                <li><button onclick="setContraste('modo-escuro')" class="w-full text-left px-4 py-2 rounded-xl hover:bg-[#76A361]/20 font-bold text-[#254d1a] transition italic">Modo Escuro</button></li>
+            </ul>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white/30 backdrop-blur-md p-2 rounded-full border border-white/50 shadow-lg pointer-events-auto">
+            <button onclick="toggleDaltonismoMenu()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden hover:scale-110 transition-all">
+                <img src="{% static 'users/images/daltonismo.png' %}" class="w-full h-full object-cover">
+            </button>
+            <button onclick="toggleContrasteMenu()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden hover:scale-110 transition-all">
+                <img src="{% static 'users/images/contraste.png' %}" class="w-full h-full object-cover">
+            </button>
+        </div>
+    </footer>
+
+   <script src="{% static 'users/js/scripts.js' %}"></script>
+</body>
+</html>

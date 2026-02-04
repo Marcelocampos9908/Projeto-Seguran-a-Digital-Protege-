@@ -1,0 +1,88 @@
+{% load static %} <!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protege+ | Sobre Nós</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,900&family=Instrument+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
+</head>
+<body class="bg-custom-light min-h-screen flex flex-col">
+
+    <header class="absolute top-4 left-4 right-4 z-50">
+        <div class="w-full header-glass backdrop-blur-xl py-4 px-8 rounded-[40px] border border-gray-300/50 shadow-xl flex justify-between items-center max-w-[1400px] mx-auto">
+            <a href="{% url 'home' %}" class="flex items-center gap-3 hover:opacity-80 transition">
+                <div class="w-10 h-10 bg-[#254d1a] rounded-full flex items-center justify-center text-xl shadow-inner">🛡️</div>
+                <span class="text-2xl font-black italic text-[#20c214]">Protege+</span>
+            </a>
+
+            <nav class="flex gap-6 items-center">
+                <a href="{% url 'home' %}" class="font-bold text-gray-600 hover:text-[#254d1a] transition italic text-lg mr-2">Início</a>
+                <div class="flex gap-3">
+                    <a href="{% url 'login' %}" class="bg-[#1c8814]/10 border-2 border-[#1c8814] text-[#1c8814] px-6 py-2 rounded-full font-black italic hover:bg-[#1c8814] hover:text-white transition shadow-sm uppercase text-sm">
+                        Entrar
+                    </a>
+                    <a href="{% url 'registar' %}" class="bg-[#1c8814] text-white px-6 py-2 rounded-full font-black italic hover:bg-[#254d1a] transition shadow-md uppercase text-sm border-2 border-[#1c8814]">
+                        Registar
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-40 flex-grow px-6 pb-12">
+        <div class="max-w-6xl mx-auto w-full">
+            
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                
+                <div class="space-y-6">
+                    <h1 class="serif-title text-[#FFFFFF] text-6xl uppercase leading-tight">
+                        Quem <br> Somos?
+                    </h1>
+                    <p class="text-lg text-[#254d1a]/80 font-bold italic max-w-md">
+                        O Protege+ nasceu para ajudar estudantes a navegar no mundo digital com segurança. Focamo-nos em ensinar cibersegurança de forma simples, prática e direta.
+                    </p>
+                </div>
+
+                <div class="Green p-1 rounded-[50px] shadow-2xl border-4 border-white">
+                    <div class="bg-white/10 p-8 md:p-10 rounded-[45px]">
+                        <h2 class="text-3xl font-black italic text-white mb-6 uppercase text-center">Envia uma mensagem</h2>
+                        
+                        <form action="#" method="POST" class="space-y-4">
+                            {% csrf_token %}
+                            <div>
+                                <label class="block text-[#254d1a] font-black italic text-sm uppercase mb-1 ml-2">Nome</label>
+                                <input type="text" name="nome" required placeholder="Teu nome" 
+                                    class="w-full bg-white rounded-full py-3 px-6 text-[#254d1a] outline-none border-none shadow-md">
+                            </div>
+                            <div>
+                                <label class="block text-[#254d1a] font-black italic text-sm uppercase mb-1 ml-2">Email</label>
+                                <input type="email" name="email" required placeholder="Teu email" 
+                                    class="w-full bg-white rounded-full py-3 px-6 text-[#254d1a] outline-none border-none shadow-md">
+                            </div>
+                            <div>
+                                <label class="block text-[#254d1a] font-black italic text-sm uppercase mb-1 ml-2">Mensagem</label>
+                                <textarea name="mensagem" rows="3" required placeholder="Como podemos ajudar?" 
+                                    class="w-full bg-white rounded-[30px] py-4 px-6 text-[#254d1a] outline-none border-none shadow-md resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-[#254d1a] text-white py-4 rounded-full font-black italic text-xl hover:bg-black transition shadow-xl uppercase mt-4">
+                                Enviar agora
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="p-8 flex justify-end">
+        <div class="flex items-center gap-3 bg-white/30 backdrop-blur-md p-2 rounded-full border border-white/50 shadow-lg">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">✉️</div>
+            <span class="text-[#254d1a] font-black italic px-4 py-2 uppercase text-xs">ajuda@protegemais.pt</span>
+        </div>
+    </footer>
+
+</body>
+</html>

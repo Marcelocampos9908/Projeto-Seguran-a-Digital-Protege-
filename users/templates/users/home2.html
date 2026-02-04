@@ -11,73 +11,68 @@
 </head>
 <body class="bg-custom-light min-h-screen flex flex-col">
 
-    <header class="absolute top-4 left-4 right-4 z-50">
-        <div class="w-full header-glass backdrop-blur-xl py-4 px-8 rounded-[40px] border border-gray-300/50 shadow-xl flex justify-between items-center max-w-[1400px] mx-auto">
+    <header class="absolute top-4 left-4 right-4 z-50 flex justify-center items-center gap-4">
+    <div class="flex-1 bg-white/95 backdrop-blur-xl py-4 px-8 rounded-[40px] border border-gray-300/50 shadow-xl flex justify-between items-center max-w-[1100px]">
+        
+        <a href="{% url 'home' %}" class="flex items-center gap-3 hover:opacity-80 transition">
+            <div class="w-10 h-10 bg-[#254d1a] rounded-full flex items-center justify-center text-xl shadow-inner">🛡️</div>
+            <span class="text-2xl font-black italic text-[#20c214]">Protege+</span>
+        </a>
+
+        <nav class="flex gap-6 items-center">
+            <div class="flex items-center gap-2 bg-black/5 px-3 py-1 rounded-full border border-black/10">
+                <button class="flex items-center gap-1 text-sm font-bold hover:scale-110 transition text-[#254d1a]">
+                    <div class="w-4 h-4 rounded-full overflow-hidden shadow-sm">
+                        <img src="{% static 'users/images/portugal.png' %}" alt="PT" class="w-full h-full object-cover">
+                    </div>
+                    PT
+                </button>
+                <span class="text-gray-400">|</span>
+                <button class="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-black transition">
+                    <div class="w-4 h-4 rounded-full overflow-hidden shadow-sm">
+                        <img src="{% static 'users/images/inglaterra.png' %}" alt="EN" class="w-full h-full object-cover">
+                    </div>
+                    EN
+                </button>
+            </div>
+
+            <a href="{% url 'sobrenos' %}" class="font-bold text-gray-600 hover:text-[#254d1a] transition italic text-lg mr-2">Sobre Nós</a>
             
-            <a href="{% url 'home' %}" class="flex items-center gap-3 hover:opacity-80 transition">
-                <div class="w-10 h-10 bg-[#254d1a] rounded-full flex items-center justify-center text-xl shadow-inner">🛡️</div>
-                <span class="text-2xl font-black italic text-[#20c214]">Protege+</span>
-            </a>
+            <div class="flex gap-3">
+                <a href="{% url 'quiz' %}" class="bg-[#1c8814] text-white px-6 py-2 rounded-full font-black italic hover:bg-[#254d1a] transition shadow-md uppercase text-sm border-2 border-[#1c8814]">
+                    Quiz
+                </a>
+                <a href="#" class="bg-[#1c8814] text-white px-6 py-2 rounded-full font-black italic hover:bg-[#254d1a] transition shadow-md uppercase text-sm border-2 border-[#1c8814]">
+                    Simulador
+                </a>
+            </div>
+        </nav>
+    </div>
 
-            <nav class="flex gap-6 items-center">
-                <div class="flex items-center gap-2 bg-black/5 px-3 py-1 rounded-full border border-black/10">
-                    <button class="flex items-center gap-1 text-sm font-bold hover:scale-110 transition text-[#254d1a]">
-                        <div class="w-4 h-4 rounded-full overflow-hidden shadow-sm">
-                            <img src="{% static 'users/images/portugal.png' %}" alt="PT" class="w-full h-full object-cover">
-                        </div>
-                        PT
-                    </button>
-
-                    <span class="text-gray-400">|</span>
-
-                    <button class="flex items-center gap-1 text-sm font-medium text-gray-500 hover:text-black transition">
-                        <div class="w-4 h-4 rounded-full overflow-hidden shadow-sm">
-                            <img src="{% static 'users/images/inglaterra.png' %}" alt="EN" class="w-full h-full object-cover">
-                        </div>
-                        EN
-                    </button>
-                </div>
-                
-
-                <a href="{% url 'sobrenos' %}" class="font-bold text-gray-600 hover:text-[#254d1a] transition italic text-lg mr-2">Sobre Nós</a>
-                
-                <div class="flex gap-3">
-                    <a href="{% url 'login' %}" class="bg-[#1c8814]/10 border-2 border-[#1c8814] text-[#1c8814] px-6 py-2 rounded-full font-black italic hover:bg-[#1c8814] hover:text-white transition shadow-sm uppercase text-sm">
-                        Entrar
-                    </a>
-                    
-                    <a href="{% url 'registar' %}" class="bg-[#1c8814] text-white px-6 py-2 rounded-full font-black italic hover:bg-[#254d1a] transition shadow-md uppercase text-sm border-2 border-[#1c8814]">
-                        Registar
-                    </a>
-                </div>
-            </nav>
+    <a href="#" class="flex-shrink-0 w-16 h-16 bg-white shadow-lg rounded-full border border-white/50 flex items-center justify-center hover:scale-110 transition">
+        <div class="w-12 h-12 bg-[#254d1a] rounded-full flex items-center justify-center text-white font-black italic text-xl shadow-inner border-2 border-[#20c214]/30">
+            {{ user.username|slice:":1"|upper }}
         </div>
-    </header>
+    </a>
+</header>
 
     <main class="pt-44 flex-grow flex items-center px-6 pb-12">
         <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-16 items-center">
             
             <div class="space-y-8">
-                <h1 class="serif-title text-[#254d1a] text-6xl lg:text-8xl leading-tight uppercase">
-                    Aprende a <br> proteger-te.
+                <h1 class="serif-title text-[#254d1a] text-6xl lg:text-8xl leading-tight">
+                    Olá {{ user.username|slice:":10" }}, <br>
+                    Bem Vindo ao Protege+ !
                 </h1>
                 <p class="text-xl text-[#254d1a]/80 font-bold italic max-w-lg leading-relaxed">
-                    Testa os teus conhecimentos com os nossos simuladores de phishing e quizzes interativos.
+                    Aqui vais melhoraros teus conhecimentos em phishing e segurança digital.
                 </p>
-                <div class="flex gap-4">
-                    <a href="{% url 'login' %}" class="bg-white text-[#254d1a] px-10 py-5 rounded-full font-black italic text-xl hover:scale-105 transition shadow-xl uppercase tracking-tight inline-block">
-                        COMEÇAR AGORA
-                    </a>
-                </div>
             </div>
 
-            <div class="relative">
-                <div class="w-full h-[400px] lg:h-[550px] bg-custom-dark rounded-[80px] overflow-hidden shadow-2xl border-8 border-white">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800" 
-                         alt="Cibersegurança" 
-                         class="w-full h-full object-cover">
-                </div>
-            </div>
+        
+
+
+            
         </div>
     </main>
 
@@ -108,13 +103,14 @@
             </button>
             <button onclick="toggleContrasteMenu()" title="Configurações de Acessibilidade" class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden hover:scale-110 active:scale-95 transition-all">
                 <img src="{% static 'users/images/contraste.png' %}" alt="Daltonismo" class="w-full h-full object-cover">
-            </button>
+            </button> 
             <button class="text-[#254d1a] font-black italic px-4 py-2 uppercase text-xs">
                 Precisas de ajuda?
             </button>
         </div>
     </footer>
     <script src="{% static 'users/js/scripts.js' %}"></script>
+
 
 </body>
 </html>
