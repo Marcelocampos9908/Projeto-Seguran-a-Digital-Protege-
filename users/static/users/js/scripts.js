@@ -85,3 +85,17 @@ function goToStep(step) {
         l2.classList.toggle('active', step >= 3);
     }
 }
+
+document.querySelectorAll('.phishing-trigger').forEach(el => {
+            el.addEventListener('click', () => {
+                const info = el.getAttribute('data-info');
+                const box = document.getElementById('info-box');
+                const text = document.getElementById('info-text');
+                
+                text.innerText = info;
+                box.classList.remove('hidden');
+                
+                // Esconde após 5 segundos
+                setTimeout(() => box.classList.add('hidden'), 5000);
+            });
+        });
